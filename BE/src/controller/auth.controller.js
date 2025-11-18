@@ -7,20 +7,20 @@ export const signup = async (req, res) => {
 
     try{
         if(!fullName || !email || !password) {
-            return res.status(400).json({message: "All fields are required"});
+            return res.status(400).json({message: "Bạn phải điền đầy đủ các mục!"});
         }
 
         if (password.length < 6) {
-            return res.status(400).json({message: "Password must be at least 6 characters long"});
+            return res.status(400).json({message: "Mật khẩu phải có độ dài từ 6 kí tự trở lên!"});
         }
 
         // check if emails is valid: regex 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)){
-            return res.status(400).json({message: "Invalid email address"});
+            return res.status(400).json({message: "Địa chỉ email không hợp lệ!"});
         }
-        const User = await User.findOne({email});
-        if (user) return res.status(400).json({message: "Email already exists"});
+        const existingUser = await User.findOne({email});
+        if (existingUser) return res.status(400).json({message: "Email đã tồn tại!"});
 
         // tranh viec mat khau qua de xuat hien trong database
         const salt = await bcrypt.genSalt(10);
@@ -42,7 +42,7 @@ export const signup = async (req, res) => {
                 _id: newUser._id, 
                 fullName: newUser.fullName,
                 email: newUser.email, 
-                profilepic: newUser.profilepic,
+                profilePic: newUser.profilePic,
             });
         // send a welcome email 
         }else{

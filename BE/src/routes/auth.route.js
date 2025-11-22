@@ -4,9 +4,13 @@ import { protectRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
+router.get("/test", arcjetProtection, (req, res) => {
+    res.status(200).json({ message: "Test" });
+});
+
 router.post("/signup", signup);
 
-router.post("/login", login);
+router.post("/login", arcjetProtection, login);
 
 router.post("/logout", logout);
 

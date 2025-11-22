@@ -9,7 +9,11 @@ export const sendWelcomeEmail = async (email, name, clientURL) => {
         html: createWelcomeEmailTemplate(name, clientURL)
     });
     if (error) {
-        console.error("Error sending welcome email:", error);
+        if (error.statusCode === 403 && error.name === 'validation_error') {
+            console.error("Original Error:", error.message);
+        } else {
+            console.error("Error sending welcome email:", error);
+        }
         throw new Error("Failed to send welcome email");
     }
 

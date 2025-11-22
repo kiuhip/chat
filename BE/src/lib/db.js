@@ -3,11 +3,11 @@ import { ENV } from "./env.js";
 
 export const connectDB = async () => {
     try {
-        if (!ENV.MONGO_URI) {
+        if (!ENV.MONGODB_URI) {
             console.log("MONGO DB CONNECTION ERROR: MONGO_URI is not defined in .env file");
             process.exit(1);
         }
-        const conn = await mongoose.connect(ENV.MONGO_URI);
+        const conn = await mongoose.connect(ENV.MONGODB_URI);
         console.log("MONGODB CONNECTED: ", conn.connection.host);
     } catch (error) {
         console.log("MONGO DB CONNECTION ERROR: ", error.message);

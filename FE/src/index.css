@@ -31,3 +31,9 @@
     @apply px-4 py-2 inline-block bg-cyan-500/10 rounded-lg text-cyan-400
   hover:text-cyan-500 text-sm transition-colors;
 }
+
+.animated-border-container {
+    background: linear-gradient(45deg, #172033, theme('colors.slate.800') 50%, #172033) padding-box,
+                conic-gradient(from var(--border-angle), theme('colors.slate.600') 80%, theme('colors.cyan.500') 86%, theme('colors.cyan.300') 90%, theme('colors.cyan.500') 94%, theme('colors.slate.600')) border-box;
+    border: 1px solid transparent;
+}

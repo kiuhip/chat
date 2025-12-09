@@ -93,7 +93,7 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (_, res) => {
-    res.cookies("jwt", "", { maxAge: 0 });
+    res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Đăng xuất thành công" });
 };
 
@@ -112,7 +112,7 @@ export const updateProfile = async (req, res) => {
             { new: true }
         );
 
-        res.status(200).json(updatedUser);
+        res.status(200).json(updateUser);
     } catch (error) {
         console.log("Error updating profile:", error);
         res.status(500).json({ message: "Internal server error" });

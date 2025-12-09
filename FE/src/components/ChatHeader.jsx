@@ -1,12 +1,17 @@
-import { XIcon } from "lucide-react";
+import { XIcon, Info } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
+import GroupInfoModal from "./GroupInfoModal";
 
 function ChatHeader() {
-    const { selectedUser, setSelectedUser } = useChatStore();
+  const { selectedUser, setSelectedUser } = useChatStore();
   const { onlineUsers } = useAuthStore();
+  const [showGroupInfo, setShowGroupInfo] = useState(false);
   const isOnline = selectedUser ? onlineUsers.includes(selectedUser._id) : false;
+
+  // Need to distinguish Group vs User
+  const isGroup = selectedUser?.members !== undefined;
 
   useEffect(() => {
     const handleEscKey = (event) => {
@@ -25,21 +30,38 @@ function ChatHeader() {
    border-slate-700/50 max-h-[84px] px-6 flex-1"
     >
       <div className="flex items-center space-x-3">
-        <div className={`avatar ${isOnline ? "online" : "offline"}`}>
+        <div className={`avatar ${!isGroup && (isOnline ? "online" : "offline")}`}>
           <div className="w-12 rounded-full">
-            <img src={selectedUser?.profilePic || "/avatar.png"} alt={selectedUser?.fullName || ""} />
+            {isGroup ? (
+              <div className="bg-slate-700 text-slate-200 rounded-full w-full h-full flex items-center justify-center text-lg font-semibold uppercase">
+                {selectedUser?.avatar ? <img src={selectedUser.avatar} /> : selectedUser?.name?.charAt(0)}
+              </div>
+            ) : (
+              <img src={selectedUser?.profilePic || "/avatar.png"} alt={selectedUser?.fullName || ""} />
+            )}
           </div>
         </div>
 
         <div>
-          <h3 className="text-slate-200 font-medium">{selectedUser?.fullName || ""}</h3>
-          <p className="text-slate-400 text-sm">{isOnline ? "Online" : "Offline"}</p>
+          <h3 className="text-slate-200 font-medium">{isGroup ? selectedUser?.name : selectedUser?.fullName}</h3>
+          <p className="text-slate-400 text-sm">
+            {isGroup ? `${selectedUser?.members?.length} members` : (isOnline ? "Online" : "Offline")}
+          </p>
         </div>
       </div>
 
-      <button onClick={() => setSelectedUser(null)}>
-        <XIcon className="w-5 h-5 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer" />
-      </button>
+      <div className="flex items-center gap-2">
+        {isGroup && (
+          <button onClick={() => setShowGroupInfo(true)} className="p-2 hover:bg-slate-700 rounded-full">
+            <Info className="w-5 h-5 text-slate-400" />
+          </button>
+        )}
+        <button onClick={() => setSelectedUser(null)}>
+          <XIcon className="w-5 h-5 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer" />
+        </button>
+      </div>
+
+      {showGroupInfo && <GroupInfoModal onClose={() => setShowGroupInfo(false)} />}
     </div>
   );
 }

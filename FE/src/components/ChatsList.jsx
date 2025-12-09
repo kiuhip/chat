@@ -29,7 +29,22 @@ function ChatsList() {
                 <img src={chat.profilePic || "/avatar.png"} alt={chat.fullName} />
               </div>
             </div>
-            <h4 className="text-slate-200 font-medium truncate">{chat.fullName}</h4>
+            <div className="flex-1 min-w-0">
+              <div className="flex justify-between items-baseline">
+                <h4 className="text-slate-200 font-medium truncate">{chat.fullName}</h4>
+                {chat.lastMessage && (
+                  <span className="text-xs text-slate-500">
+                    {new Date(chat.lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                )}
+              </div>
+              {chat.lastMessage && (
+                <p className={`text-sm truncate ${!chat.lastMessage.readBy.includes(useAuthStore.getState().authUser._id) ? "font-bold text-slate-100" : "text-slate-400"
+                  }`}>
+                  {chat.lastMessage.image ? "Image" : chat.lastMessage.text}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       ))}

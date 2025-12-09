@@ -10,7 +10,12 @@ const messageSchema = new mongoose.Schema(
         receiverId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            required: true,
+            required: false, // Optional if it's a group message
+        },
+        groupId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group",
+            required: false,
         },
         text: {
             type: String,
@@ -20,6 +25,10 @@ const messageSchema = new mongoose.Schema(
         image: {
             type: String,
         },
+        readBy: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        }],
     },
     { timestamps: true }
 );

@@ -26,8 +26,8 @@ function ChatPage() {
 
           <div className="flex-1 overflow-y-auto p-4 space-y-2">
             {activeTab === "chats" && <ChatsList />}
-            {activeTab === "contacts" && <ContactList />}
             {activeTab === "groups" && <GroupList />}
+            {activeTab === "contacts" && <ContactList />}
           </div>
 
           <div className="p-4 border-t border-slate-700/50">

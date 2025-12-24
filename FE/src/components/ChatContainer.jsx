@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
-import NoChatHistoryPlaceholder from "./NoChatHistoryPlaceholder";
+import NoChatHistoryPlaceholder from "./NoChatHistoryPlaceHolder";
 import MessageInput from "./MessageInput";
 import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
 
@@ -67,8 +67,8 @@ function ChatContainer() {
                   )}
                   <div
                     className={`chat-bubble relative ${isMe
-                        ? "bg-cyan-600 text-white"
-                        : "bg-slate-800 text-slate-200"
+                      ? "bg-cyan-600 text-white"
+                      : "bg-slate-800 text-slate-200"
                       }`}
                   >
                     {msg.image && (
